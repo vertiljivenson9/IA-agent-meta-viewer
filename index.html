@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <title>Subir proyecto a GitHub</title>
+</head>
+<body>
+  <button id="go">Conectar con GitHub</button>
+  <pre id="log"></pre>
+
+  <script>
+    const CLIENT_ID = 'TU_CLIENT_ID_AQUI';          // <-- reemplaza con tu Client ID
+    const REDIR     = location.origin + '/callback.html';
+
+    go.onclick = () => {
+      const state = Math.random().toString(36).slice(2);
+      sessionStorage.setItem('gh_state', state);
+      sessionStorage.setItem('gh_redirect', location.href);
+      location.href = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo&state=${state}`;
+    };
+  </script>
+</body>
+</html>
