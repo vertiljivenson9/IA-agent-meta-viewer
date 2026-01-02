@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"/></head>
+<body>
+<script>
+const params = new URLSearchParams(location.search);
+const code  = params.get('code');
+const state = params.get('state');
+if(state !== sessionStorage.gh_state){ document.body.textContent='Estado inválido'; }
+else {
+  fetch('https://github.com/login/oauth/access_token',{
+    method:'POST',
+    headers:{'Accept':'application/json','Content-Type':'application/json'},
+    body:JSON.stringify({
+      client_id:'TU_CLIENT_ID_AQUI',
+      client_secret:'TU_CLIENT_SECRET_AQUI',
+      code:code
+    })
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    sessionStorage.gh_token = d.access_token;
+    location.href = sessionStorage.gh_redirect || '/';
+  });
+}
+</script>
+</body>
+</html>
